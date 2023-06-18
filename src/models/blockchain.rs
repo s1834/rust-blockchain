@@ -36,4 +36,17 @@ impl Blockchain {
         };
         blockchain
     }
+
+    pub fn add_block(&mut self, nonce: String) {
+        let new_block = Block::new(
+            self.chain.len() as u64,
+            nonce,
+            self.chain[&self.chain.len() - 1].previous_hash.clone()
+        );
+        new_block.mine(self.clone());
+        self.chain.push(new_block.clone());
+        println!("New block added to chain -> {:?}", new_block);
+    }
 }
+
+

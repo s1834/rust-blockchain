@@ -18,16 +18,32 @@ pub struct Block {
     // The current block hash.
     pub hash: String
 }
-impl Block {}
+impl Block {
+    // Calculate block hash.
+    pub fn calculate_hash(&self) -> String {
+        let mut block_data = self.clone();
+        block_data.hash = String::default();
+        let serialized_block_data = serde_json::to_string(&block_data).unwrap();
+        // Calculate and return SHA-256 hash value.
+        let mut hasher = Sha256::new();
+        hasher.update(serialized_block_data);
+        let result = hasher.finalize();
+        format!("{:x}", result)
+    }
 
-// Calculate block hash.
-pub fn calculate_hash(&self) -> String {
-    let mut block_data = self.clone();
-    block_data.hash = String::default();
-    let serialized_block_data = serde_json::to_string(&block_data).unwrap();
-    // Calculate and return SHA-256 hash value.
-    let mut hasher = Sha256::new();
-    hasher.update(serialized_block_data);
-    let result = hasher.finalize();
-    format!("{:x}", result)
+    // Create a new block. The hash will be calculated and set automatically.
+    pub fn new (
+        index: u64,
+        previous_hash: String,
+    ) -> Self {
+      // Current block to be created.
+        let mut block = Block {
+            index: 0,
+            timestamp: Utc::now().timestamp_millis() as u64,
+            proof_of_work: u64::default(),
+            previous_hash: String::default(),
+            hash: String::default(),
+        };
+        block
+    }
 }
