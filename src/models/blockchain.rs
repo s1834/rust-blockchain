@@ -5,7 +5,7 @@ use super::block::Block;
 type Block = Vec<Block>;
 
 // `Blockchain` A struct that represents the blockchain.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Blockchain {
     // The first block to be added to the chain.
     pub genesis_block: Block,
@@ -25,28 +25,30 @@ impl Blockchain {
             previous_hash: String::default(),
             hash: String::default()
         };
+        
         // Create chain starting from the genesis chain.
         let mut chain = Vec::new();
         chain.push(genesis_block.clone());
+
         // Create a blockchain Instance.
         let blockchain = Blockchain {
             genesis_block,
             chain,
             difficulty
         };
+
         blockchain
     }
 
     pub fn add_block(&mut self, nonce: String) {
-        let new_block = Block::new(
+        let mut new_block = Block::new(
             self.chain.len() as u64,
-            nonce,
-            self.chain[&self.chain.len() - 1].previous_hash.clone()
+            self.chain[&self.chain.len() - 1].previous_hash.clone(),
         );
+
         new_block.mine(self.clone());
         self.chain.push(new_block.clone());
         println!("New block added to chain -> {:?}", new_block);
     }
 }
-
 
