@@ -21,7 +21,7 @@ pub struct Block {
 
 impl Block {
     // Calculate block hash.
-    pub fn calculate_hash(&self) -> String {
+    pub fn generate_block_hash(&self) -> String {
         let mut block_data = self.clone();
         block_data.hash = String::default();
         let serialized_block_data = serde_json::to_string(&block_data).unwrap();

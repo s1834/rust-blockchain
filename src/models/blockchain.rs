@@ -2,7 +2,7 @@ use chrono::prelude::*;
 // Internal module
 use super::block::Block;
 
-type Block = Vec<Block>;
+type Blocks = Vec<Block>;
 
 // `Blockchain` A struct that represents the blockchain.
 #[derive(Debug, Clone)]
@@ -25,7 +25,7 @@ impl Blockchain {
             previous_hash: String::default(),
             hash: String::default()
         };
-        
+
         // Create chain starting from the genesis chain.
         let mut chain = Vec::new();
         chain.push(genesis_block.clone());
@@ -40,7 +40,7 @@ impl Blockchain {
         blockchain
     }
 
-    pub fn add_block(&mut self, nonce: String) {
+    pub fn add_block(&mut self) {
         let mut new_block = Block::new(
             self.chain.len() as u64,
             self.chain[&self.chain.len() - 1].previous_hash.clone(),
