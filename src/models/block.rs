@@ -46,4 +46,16 @@ impl Block {
         };
         block
     }
+
+    // Mine block hash.
+    pub fn mine (&mut self, blockchain: Blockchain) {
+        loop {
+            if !self.hash.starts_with(&"0".repeat(blockchain.difficulty)) {
+                self.proof_of_work += 1;
+                self.hash = self.generate_block_hash();
+            } else {
+                break
+            }
+        }
+    }
 }
